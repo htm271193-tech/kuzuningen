@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>カス人間診断｜あなたのカス度を正直に評価します</title>
+<meta name="description" content="20の質問から、性格心理学の知見をもとにあなたのカス度を32タイプで評価します。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F9; --ink:#1C2233; --sub:#5A6378; --card:#FFFFFF; --soft:#EBEEF4; --rule:#DDE2EB;
+  --navy:#1E2A4A; --navy2:#2E3D66; --red:#E5484D; --good:#3AA7A0;
+  --c1:#4C8DF6; --c2:#3DBE7A; --c3:#F2A93B; --c4:#B374F0; --c5:#F06A8A;
+  --agree:#E5484D; --disagree:#4C8DF6; --shadow:0 10px 28px rgba(28,34,51,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11151F; --ink:#EDF0F6; --sub:#A3ACBE; --card:#1A1F2C; --soft:#232A39; --rule:#2D3547;
+    --navy:#0B1020; --navy2:#1A2440; --shadow:0 10px 28px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11151F; --ink:#EDF0F6; --sub:#A3ACBE; --card:#1A1F2C; --soft:#232A39; --rule:#2D3547;
+  --navy:#0B1020; --navy2:#1A2440; --shadow:0 10px 28px rgba(0,0,0,.45);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
+body{margin:0;min-height:100%;color:var(--ink);background:var(--paper);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+.h{font-family:"M PLUS 1p","Hiragino Sans","Noto Sans JP",sans-serif;font-weight:800}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+[hidden]{display:none!important}
+.wrap{max-width:620px;margin:0 auto;padding:0 18px}
+
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
+.brand{background:none;border:0;padding:0;display:flex;align-items:center;gap:8px;font-size:1.02rem}
+.brand i{width:24px;height:24px;border-radius:7px;background:var(--red);display:grid;place-items:center;color:#fff;font-style:normal;font-size:.8rem;font-weight:800}
+.topbar .mini{background:var(--soft);border:0;border-radius:999px;padding:5px 14px;font-size:.85rem;font-weight:700}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:14px;padding:15px 30px;font-weight:700;font-size:1.05rem;min-width:250px;background:var(--red);color:#fff;box-shadow:0 5px 0 #A92F33;text-decoration:none;transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #A92F33}
+.btn.sub{background:var(--card);color:var(--ink);box-shadow:0 4px 0 var(--rule);border:2px solid var(--rule)}
+.btn.navy{background:var(--navy2);box-shadow:0 5px 0 #121A33}
+.btn.line{background:#06C755;color:#fff;box-shadow:0 5px 0 #04963F}
+.btn.sm{min-width:0;padding:11px 20px;font-size:.95rem}
+
+.hero{background:var(--navy);background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px;color:#EEF1F8;padding:30px 0 0;overflow:hidden}
+.hero .wrap{text-align:center}
+.eyebrow{font-size:.72rem;letter-spacing:.3em;opacity:.7;margin:0}
+.hero h1{font-size:clamp(2.6rem,13vw,4rem);line-height:1.1;margin:8px 0 10px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero .tag{margin:0;font-weight:500;opacity:.9}
+.pills{display:flex;justify-content:center;gap:8px;margin:16px 0 0;flex-wrap:wrap}
+.pills span{border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:3px 13px;font-size:.84rem;font-weight:700}
+.stage{display:block;width:200px;margin:14px auto -8px;background:none;border:0;padding:0}
+.stage svg{width:100%;height:auto;display:block}
+.stage.swap svg{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.85)}to{transform:none}}
+.stage-caption{background:var(--card);border-radius:16px;padding:10px 16px;margin:18px auto 0;max-width:340px;box-shadow:var(--shadow);text-align:center}
+.stage-caption b{display:block}
+.stage-caption span{font-size:.8rem;color:var(--sub)}
+.cta{display:flex;flex-direction:column;gap:12px;align-items:center;margin:22px 0 8px}
+
+section.block{padding:34px 0 0}
+.h2{font-size:1.3rem;margin:0 0 14px;text-align:center}
+.axes{display:grid;gap:10px}
+.axes div{background:var(--card);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px}
+.dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
+.axes b{display:block;font-size:.95rem}
+.axes small{color:var(--sub);font-size:.84rem;display:block;line-height:1.55}
+.method{background:var(--card);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);font-size:.92rem}
+.method p{margin:0 0 8px}
+.method p:last-child{margin:0}
+.genres{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gcard{display:flex;flex-direction:column;align-items:center;text-align:center;background:var(--card);border:0;border-top:5px solid var(--gc);border-radius:16px;padding:8px 10px 14px;box-shadow:var(--shadow)}
+.gcard svg{width:110px;height:110px}
+.gcard b{display:block;color:var(--gc);font-size:1rem}
+.gcard small{display:block;font-size:.75rem;color:var(--sub);font-weight:700}
+.gcard em{display:block;font-style:normal;font-size:.8rem;line-height:1.5;margin-top:4px}
+.peek{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.peek button{background:var(--card);border:0;border-radius:14px;padding:6px 6px 10px;box-shadow:var(--shadow);text-align:center}
+.peek svg{width:100%;height:auto;display:block}
+.peek b{display:block;font-size:.78rem;line-height:1.4}
+.more{text-align:center;margin-top:14px}
+footer{margin-top:44px;padding:24px 0 40px;border-top:1px solid var(--rule);font-size:.78rem;color:var(--sub);line-height:1.75}
+footer p{margin:0 0 8px}
+
+.quiz{padding-top:18px}
+.qhead{display:flex;align-items:center;justify-content:space-between}
+.back{background:none;border:0;color:var(--sub);padding:6px 0;font-size:.95rem;font-weight:700}
+.qcount{font-size:1rem}
+.prog{height:6px;border-radius:3px;background:var(--rule);margin:12px 0 22px;overflow:hidden}
+.prog b{display:block;height:100%;background:var(--navy2);transition:width .3s ease}
+.qcard{background:var(--card);border-radius:20px;padding:26px 20px 22px;box-shadow:var(--shadow)}
+.qcard.enter{animation:enter .3s ease}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.qtag{display:inline-block;font-size:.76rem;font-weight:700;padding:2px 10px;border-radius:6px;background:var(--soft);color:var(--sub);margin-bottom:12px}
+.qtag.deep{background:var(--navy2);color:#fff}
+.qtext{font-size:clamp(1.12rem,5vw,1.32rem);font-weight:700;line-height:1.7;margin:0 0 26px;min-height:3.4em}
+.scale{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.blob{border:3px solid;border-radius:50%;padding:0;background:transparent;flex:0 0 auto;transition:transform .12s,background .12s}
+.blob:hover{transform:scale(1.08)}
+.blob.sel{transform:scale(1.14)}
+.blob[data-v="3"],.blob[data-v="-3"]{width:52px;height:52px}
+.blob[data-v="2"],.blob[data-v="-2"]{width:42px;height:42px}
+.blob[data-v="1"],.blob[data-v="-1"]{width:32px;height:32px}
+.blob[data-v^="-"]{border-color:var(--disagree)}
+.blob:not([data-v^="-"]){border-color:var(--agree)}
+.blob[data-v^="-"].sel{background:var(--disagree)}
+.blob:not([data-v^="-"]).sel{background:var(--agree)}
+.scale-labels{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;margin-top:10px}
+.scale-labels span:first-child{color:var(--agree)}
+.scale-labels span:last-child{color:var(--disagree)}
+.qhint{font-size:.8rem;color:var(--sub);text-align:center;margin:14px 0 0}
+
+.loading{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+.spinner{width:64px;height:64px;border-radius:50%;border:6px solid var(--rule);border-top-color:var(--red);animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.loading p{font-weight:700;margin:0}
+.loading small{color:var(--sub)}
+
+.rhero{background:var(--navy);background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px;color:#EEF1F8;padding:18px 0 28px;text-align:center}
+.rhero .kicker{margin:0;font-size:.85rem;opacity:.8}
+.rhero .pic{width:min(220px,60vw);margin:4px auto 0}
+.rhero .pic svg{width:100%;height:auto;display:block}
+.rname{font-size:clamp(1.6rem,7.2vw,2.3rem);line-height:1.3;margin:6px 0 6px}
+.rcatch{font-weight:500;margin:0 auto 12px;max-width:27em;opacity:.92}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.chip{font-size:.78rem;font-weight:700;padding:3px 11px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.chip.bad{background:var(--red);border-color:var(--red)}
+.card{background:var(--card);border-radius:20px;padding:22px 18px;box-shadow:var(--shadow);margin-top:18px}
+.card h2{font-size:1.15rem;margin:0 0 12px}
+.card .intro{font-size:.9rem;color:var(--sub);margin:-4px 0 12px}
+.score{text-align:center;margin-top:-10px;position:relative}
+.score .label{font-size:.8rem;font-weight:700;color:var(--sub);letter-spacing:.1em}
+.snum{font-size:3.4rem;line-height:1.05;margin:6px 0 0}
+.snum small{font-size:.38em;color:var(--sub)}
+.slevel{font-size:1.35rem;margin:4px 0}
+.sdesc{font-size:.92rem;margin:0 0 14px;color:var(--sub)}
+.meter{position:relative;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--good),#F2C94C,var(--red));}
+.meter i{position:absolute;top:-6px;width:4px;height:26px;border-radius:2px;background:var(--ink);transform:translateX(-50%)}
+.meter-row{display:flex;justify-content:space-between;font-size:.72rem;color:var(--sub);margin-top:6px}
+.deep p{margin:0 0 6px;line-height:1.95}
+.deep h3{font-size:.98rem;margin:18px 0 4px;padding-left:10px;border-left:4px solid var(--red)}
+.axis{padding:14px 0;border-bottom:1px solid var(--rule)}
+.axis:first-of-type{padding-top:0}
+.axis:last-child{border-bottom:0;padding-bottom:0}
+.axis-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.axis-top b{font-size:1rem}
+.badge{font-size:.72rem;font-weight:700;padding:1px 9px;border-radius:6px;color:#fff;white-space:nowrap}
+.track{position:relative;height:10px;border-radius:5px;background:var(--soft);margin:8px 0 4px;overflow:hidden}
+.track b{position:absolute;inset:0 auto 0 0;border-radius:5px}
+.track-row{display:flex;justify-content:space-between;font-size:.72rem;color:var(--sub)}
+.axis p{margin:8px 0 0;font-size:.95rem}
+.axis .sci{font-size:.84rem;color:var(--sub);background:var(--soft);border-radius:10px;padding:8px 12px;margin-top:8px}
+.pts{list-style:none;margin:0;padding:0}
+.pts li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);font-size:.95rem}
+.pts li:last-child{border-bottom:0}
+.pts .mk{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:.78rem;font-weight:800;color:#fff;margin-top:2px}
+.pts small{display:block;font-size:.76rem;color:var(--sub);font-weight:700}
+.pals{display:grid;gap:10px}
+.pal{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--soft);border:0;border-radius:16px;padding:8px 12px}
+.pal svg{width:84px;height:84px;flex:0 0 auto}
+.pal .role{display:inline-block;font-size:.72rem;font-weight:700;background:var(--card);border-radius:6px;padding:1px 9px;margin-bottom:3px}
+.pal b{display:block;font-size:1rem}
+.pal small{color:var(--sub);font-size:.84rem;line-height:1.5;display:block}
+.share{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.toast{text-align:center;font-size:.85rem;color:var(--good);min-height:1.4em;margin:8px 0 0;word-break:break-all}
+.endnav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 0}
+
+.zukan{padding-top:20px}
+.zukan .h2{text-align:left;margin-bottom:6px}
+.flabel{font-size:.8rem;font-weight:700;color:var(--sub);margin:10px 0 6px}
+.zfilter{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.zfilter::-webkit-scrollbar{display:none}
+.zfilter button{flex:0 0 auto;border:0;background:var(--card);border-radius:8px;padding:5px 12px;font-size:.84rem;font-weight:700;box-shadow:0 2px 0 var(--rule)}
+.zfilter button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.zcount{font-size:.85rem;color:var(--sub);margin:12px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.zc{background:var(--card);border:0;border-radius:16px;padding:6px 8px 12px;text-align:center;box-shadow:var(--shadow)}
+.zc svg{width:100%;height:auto;display:block}
+.zc b{display:block;font-size:.88rem;line-height:1.4}
+.zc small{display:block;font-size:.76rem;color:var(--sub)}
+.empty{text-align:center;color:var(--sub);padding:30px 0}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <button class="brand h" id="brand" aria-label="トップへ戻る"><i>カ</i>カス人間診断</button>
+    <button class="mini" id="topZukan">図鑑</button>
+  </div>
+</header>
+
+<main>
+<div class="view" id="home">
+  <div class="hero">
+    <div class="wrap">
+      <p class="eyebrow">PERSONALITY ASSESSMENT</p>
+      <h1 class="h"><em>カス</em>人間診断</h1>
+      <p class="tag">あなたのカス度を、性格心理学の知見から正直に評価します。</p>
+      <div class="pills"><span>全20問</span><span>約4分</span><span>32タイプ</span></div>
+      <button class="stage" id="stage" aria-label="別のタイプを表示"></button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="stage-caption"><b class="h" id="stageName"></b><span>タップすると、ほかのタイプに変わります</span></div>
+    <div class="cta">
+      <button class="btn" id="startBtn">診断をはじめる</button>
+      <button class="btn sub" id="lastBtn" hidden>前回の結果を見る</button>
+    </div>
+
+    <section class="block">
+      <h2 class="h2 h">4つの系統</h2>
+      <div class="genres" id="genres"></div>
+    </section>
+
+    <section class="block">
+      <h2 class="h2 h">評価する5つの特性</h2>
+      <div class="axes" id="axesIntro"></div>
+    </section>
+
+    <section class="block">
+      <h2 class="h2 h">診断の方法</h2>
+      <div class="method">
+        <p>性格心理学で広く使われる「ビッグファイブ（性格の5因子モデル）」と、他者を利用する傾向・自己愛・冷淡さを扱う「ダークトライアド」の研究をもとに、人間関係で信頼を失いやすい5つの特性を評価します。</p>
+        <p>質問には、自分について直接たずねるものと、具体的な場面を想像して答えるものがあります。場面の質問は、自分をよく見せようとする意識が入りにくいように作っています。</p>
+        <p>深く考えず、最初に浮かんだ答えを選んでください。</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="h2 h">どんなタイプがいる？</h2>
+      <div class="peek" id="peek"></div>
+      <div class="more"><button class="btn sub sm" id="zukanBtn">32タイプをすべて見る</button></div>
+    </section>
+
+    <footer>
+      <p>本診断は、ビッグファイブ（性格の5因子モデル）、HEXACOモデル、ダークトライアド（マキャベリズム・ナルシシズム・サイコパシー）に関する性格心理学の研究知見を参考に作成しています。</p>
+      <p>質問項目は本診断のために独自に作成したもので、標準化された心理検査ではありません。医学的・臨床的な診断を行うものではありません。</p>
+      <p>回答や結果はどこにも送信されず、この端末の中だけに保存されます。</p>
+    </footer>
+  </div>
+</div>
+
+<div class="view" id="quiz" hidden>
+  <div class="wrap quiz">
+    <div class="qhead">
+      <button class="back" id="qBack">‹ もどる</button>
+      <span class="qcount h" id="qCount">Q1 / 20</span>
+    </div>
+    <div class="prog"><b id="qbar"></b></div>
+    <div class="qcard" id="qcard">
+      <span class="qtag" id="qTag"></span>
+      <p class="qtext" id="qText"></p>
+      <div class="scale" id="scale" role="group" aria-label="どのくらい当てはまるか"></div>
+      <div class="scale-labels"><span>あてはまる</span><span>あてはまらない</span></div>
+    </div>
+    <p class="qhint">よく見られたい気持ちは置いて、実際の自分に近いほうを選んでください。</p>
+  </div>
+</div>
+
+<div class="view" id="loading" hidden>
+  <div class="wrap loading">
+    <div class="spinner" aria-hidden="true"></div>
+    <p class="h" id="loadText">回答を分析しています…</p>
+    <small>5つの特性ごとにスコアを算出しています</small>
+  </div>
+</div>
+
+<div class="view" id="result" hidden><div id="resultBody"></div></div>
+
+<div class="view" id="zukan" hidden>
+  <div class="wrap zukan">
+    <h2 class="h2 h">32タイプ図鑑</h2>
+    <p class="flabel">カス度でしぼる</p>
+    <div class="zfilter" id="zlevel"></div>
+    <p class="flabel">系統でしぼる</p>
+    <div class="zfilter" id="zgenre"></div>
+    <p class="flabel">特性でしぼる</p>
+    <div class="zfilter" id="ztrait"></div>
+    <p class="zcount" id="zcount"></p>
+    <div class="grid" id="grid"></div>
+    <div class="endnav"><button class="btn sub sm" id="zBack">トップへ</button></div>
+  </div>
+</div>
+</main>
+
+<script>
+// poles[0] = まとも側, poles[1] = カス側
+const AX = [
+  {k:'誠実性', q:'責任感', color:'var(--c1)', w:20, poles:[
+    {c:'M', n:'有言実行', d:'約束を守り、やるべきことをやる。人としての最低限の信用を、あなたはちゃんと持っています。',
+     e:'ビッグファイブの「誠実性」は、仕事の成果や人間関係の安定と関連することが、多くの研究で報告されています。',
+     f:'自分の基準で他人を裁きすぎないこと。真面目さは、ときに人を責める道具にもなります。'},
+    {c:'L', n:'口だけ', d:'「やる」と言ってやらない。遅れる。忘れる。悪気がなくても、周りはあなたを「信用できない人」として扱い始めています。',
+     e:'誠実性が低い人は、先延ばしや約束違反が多くなりやすく、周囲からの信頼を失いやすいとされています。',
+     f:'約束は「確実にできること」だけにする。引き受ける数を減らすほうが、信用は早く戻ります。'}]},
+  {k:'協調性', q:'思いやり', color:'var(--c2)', w:22, poles:[
+    {c:'G', n:'思いやり', d:'人の気持ちを考え、困っている人に手を貸せる。周りはあなたの存在に、思っている以上に助けられています。',
+     e:'ビッグファイブの「協調性」が高い人は、共感や援助行動が多い傾向があるとされています。',
+     f:'自分を後回しにしすぎないこと。尽くしすぎる人は、見返りを期待し始めたときに一気に不満がたまります。'},
+    {c:'T', n:'自己中心', d:'人の話を聞いているようで、頭の中は自分のことでいっぱい。損得の天秤は、いつも自分のほうに傾いています。',
+     e:'協調性が低い人は、競争的で他者への共感が少ない傾向があるとされています。',
+     f:'会話で「自分の話」と「相手への質問」の割合を意識する。まずは半々を目指してください。'}]},
+  {k:'正直さ', q:'誠実さ', color:'var(--c3)', w:20, poles:[
+    {c:'H', n:'正直', d:'得にならなくても、正直でいられる。駆け引きが下手なぶん、人から信頼されます。',
+     e:'性格モデル「HEXACO」では、正直さ・謙虚さが独立した特性として扱われ、他者との信頼関係の土台になるとされています。',
+     f:'正直さと無神経は別物です。言わなくていい本音まで言っていないか、ときどき確認を。'},
+    {c:'C', n:'打算', d:'人を「役に立つかどうか」で見ている部分がある。うまく立ち回っているつもりでも、打算は意外と相手に伝わっています。',
+     e:'ダークトライアドのひとつ「マキャベリズム」は、他者を目的のための手段として扱う傾向を指します。短期的には得をしても、長期的な信頼を失いやすいとされています。',
+     f:'「この人と仲良くして何の得があるか」と考えた瞬間に、一度立ち止まる習慣を。'}]},
+  {k:'自己愛', q:'謙虚さ', color:'var(--c4)', w:18, poles:[
+    {c:'U', n:'謙虚', d:'自分の失敗を笑えて、人の成功を素直に喜べる。簡単そうで、できる人はかなり少ないです。',
+     e:'自己評価が安定している人は、他者の成功を脅威と感じにくいとされています。',
+     f:'謙虚さが自己否定になっていないか注意を。遠慮しすぎは、周りに気をつかわせることもあります。'},
+    {c:'N', n:'自己愛', d:'自分は特別でいたいし、認められたい。その気持ちが強いぶん、人の成功にざわつき、反応が少ないと傷つきます。',
+     e:'ダークトライアドのひとつ「ナルシシズム」は、優越感や称賛を求める気持ちの強さを特徴とします。',
+     f:'評価される前に、自分から人をほめてみてください。承認は、与えたほうが返ってきます。'}]},
+  {k:'原因帰属', q:'自分を振り返る力', color:'var(--c5)', w:20, poles:[
+    {c:'O', n:'自責', d:'うまくいかないとき、まず自分を振り返れる。成長できる人の条件を、あなたは満たしています。',
+     e:'失敗の原因を自分の行動に求める人ほど、次の改善につなげやすいとされています。',
+     f:'自分を責めすぎないこと。振り返りと自己否定は別物です。'},
+    {c:'B', n:'他責', d:'トラブルの原因は、だいたい相手か環境。あなたが変わらない理由を、あなたは毎回ちゃんと用意しています。',
+     e:'成功は自分のおかげ、失敗は他人や状況のせいにする傾向は「自己奉仕バイアス」と呼ばれます。誰にでもある傾向ですが、強すぎると人間関係の摩擦を生みます。',
+     f:'注意されたら、反論する前に「内容」だけを一度受け取る。言い方への不満は、そのあとで十分です。'}]}
+];
+
+// deep:true = 場面を想像して答える質問
+const Q = [
+  {t:'「やる」と言ったことを、そのまま放置したことが何度もある', ax:0, key:-1},
+  {t:'電車で席を譲るか迷ったとき、結局は譲ることが多い', ax:1, key:1, deep:true},
+  {t:'お店でお釣りを多くもらったと気づいたら、伝えに戻る', ax:2, key:1, deep:true},
+  {t:'自分は周りの人より、少し特別な存在だと感じる', ax:3, key:-1},
+  {t:'うまくいかなかったとき、まず自分の行動を振り返る', ax:4, key:1},
+  {t:'誰も見ていない場所でも、ゴミはきちんと分別する', ax:0, key:1, deep:true},
+  {t:'人の話を聞きながら、自分が次に何を話すか考えていることが多い', ax:1, key:-1, deep:true},
+  {t:'人を動かすには、本音より建前をうまく使うのがコツだと思う', ax:2, key:-1},
+  {t:'身近な人がほめられているのを見ても、素直にすごいと思える', ax:3, key:1, deep:true},
+  {t:'誰かに注意されると、内容より「言い方」のほうに腹が立つ', ax:4, key:-1, deep:true},
+  {t:'約束の時間には、だいたい5分前に着いている', ax:0, key:1},
+  {t:'自分が損をするくらいなら、多少相手に嫌われてもいい', ax:1, key:-1},
+  {t:'仲良くしている人の中に、「役に立つから付き合っている人」がいる', ax:2, key:-1, deep:true},
+  {t:'自分の失敗談を、笑い話として人に話せる', ax:3, key:1},
+  {t:'仕事や人間関係のトラブルは、たいてい相手に原因があると思う', ax:4, key:-1},
+  {t:'締め切りの前日でも「まだ大丈夫」と思っている自分がいる', ax:0, key:-1, deep:true},
+  {t:'人が困っていると、頼まれなくても手を貸す', ax:1, key:1},
+  {t:'得にならなくても、正直に話すほうを選ぶ', ax:2, key:1},
+  {t:'SNSの投稿に反応が少ないと、消したくなる', ax:3, key:-1, deep:true},
+  {t:'謝るべき場面で、言い訳より先に「ごめん」が出る', ax:4, key:1, deep:true}
+];
+
+// [タイプ名, キャッチ]
+const TYPES = {
+  MGHUO:['模範的な人間','責任感も思いやりも誠実さも、すべてそろっている。自己申告どおりなら。'],
+  MGHUB:['惜しい善人','真面目でやさしくて正直。なのに、うまくいかないのは全部だれかのせい。'],
+  MGHNO:['承認欲求つよめの優等生','きちんとしていて、やさしくて、正直。ただし、それを誰かに見ていてほしい。'],
+  MGHNB:['プライドの高い善人','自分は正しいことをしている。だから、うまくいかないのは周りのせい。'],
+  MGCUO:['賢い世渡り上手','真面目でやさしい。ただ、その行動の裏にはいつも小さな計算がある。'],
+  MGCUB:['計算高い調整役','場をうまく回すのは得意。ただし、失敗したときは自然と人のせいになる。'],
+  MGCNO:['好感度の設計者','好かれる自分を、真面目に計算して作り上げている人。'],
+  MGCNB:['外面のいい策士','外では感じがよく、内側は計算と自己愛と他責でできている人。'],
+  MTHUO:['ドライな実務家','責任感も正直さもある。ただ、他人への関心が驚くほど薄い。'],
+  MTHUB:['融通のきかない正論マン','正しいことを言う。でも相手の気持ちは考えないし、失敗は相手のせい。'],
+  MTHNO:['実力主義の自信家','自分の能力を信じ、結果で語る。ただ、他人のことはあまり見ていない。'],
+  MTHNB:['他人に厳しい自信家','自分は正しく、自分は優れている。うまくいかないのは周りの能力不足。'],
+  MTCUO:['冷徹な合理主義者','責任感はある。ただ、人を感情ではなく損得で見ている。'],
+  MTCUB:['静かな搾取者','真面目な顔をして、自分の得になるように人を使い、責任はとらない人。'],
+  MTCNO:['野心家','目標のためなら人も使う。自分の成功がいちばん大事。'],
+  MTCNB:['仕事ができるカス','能力と責任感はある。それ以外は、ほぼすべてカス寄り。'],
+  LGHUO:['憎めないポンコツ','ルーズで頼りない。でも、やさしくて正直で、なぜか嫌われない。'],
+  LGHUB:['言い訳上手なお人よし','やさしくて正直。でもルーズで、遅れたときの言い訳だけは一流。'],
+  LGHNO:['かまってほしいお調子者','ルーズで目立ちたがり。でもやさしくて、憎みきれない。'],
+  LGHNB:['口だけのいい人','やさしいことを言う。でも行動しないし、責められると人のせいにする。'],
+  LGCUO:['ゆるい世渡り上手','ルーズだけど要領がいい。やさしさと計算を使い分ける人。'],
+  LGCUB:['調子のいい人','愛想はいい。でも約束は守らず、得を探し、失敗は人のせい。'],
+  LGCNO:['人たらし','人の心をつかむのは天才的。ただし、その多くは計算と承認欲求から。'],
+  LGCNB:['愛想のいい無責任','笑顔は満点。責任感と誠実さは赤点。'],
+  LTHUO:['マイペースな自由人','ルーズで他人に興味がない。ただし正直で、悪気もない。'],
+  LTHUB:['正直で身勝手な人','思ったことは正直に言う。約束は守らないし、悪いのは相手。'],
+  LTHNO:['根拠のない自信家','準備はしない。人のことも見ない。でも自分はできると思っている。'],
+  LTHNB:['自分に甘く他人に厳しい人','自分のルーズさは棚に上げて、他人の欠点は許さない。'],
+  LTCUO:['楽して得したい人','がんばらず、人を思いやらず、得だけはしっかり取りたい。'],
+  LTCUB:['ずるい責任転嫁屋','楽をしたい、得をしたい。そして失敗は誰かのせい。'],
+  LTCNO:['口のうまいナルシスト','話はうまいし自信もある。行動と誠実さが追いついていない。'],
+  LTCNB:['真性のカス','5つの特性すべてで、カス側。']
+};
+
+// [総合評価, あなたの本質, 周りからの本当の評価, 人間関係で起きていること]
+const DEEP = {
+  MGHUO:['5つの特性すべてで、カスの要素が見当たりません。約束を守り、人を思いやり、正直で、謙虚で、失敗から学べる。心理学的に見ても、周囲から信頼されやすい人の特徴をほぼすべて満たしています。','ただし正直に言います。この結果はあなたの自己申告です。人は自分を実際よりよく答える傾向があり、全問「いい人」側を選んだ可能性も否定できません。','本当にこのとおりなら、周りからは「一緒にいて安心できる人」と思われています。ただ、隙がなさすぎて、少し近寄りがたい印象を持たれていることも。','頼られやすい反面、あなた自身は誰にも頼れていないかもしれません。完璧な人ほど、弱音を吐く場所を失いがちです。'],
+  MGHUB:['責任感も思いやりもある。正直で謙虚。ここまではほぼ満点です。唯一にして致命的なのが、うまくいかないときに原因を外に求めるクセです。','自分はちゃんとやっているという自負があるぶん、「悪いのは自分ではない」と思いやすい。正しくあろうとする気持ちが、逆に自分を振り返る目を曇らせています。','「いい人なんだけど、何かあると人のせいにする」。この一言で、あなたのいいところがかなり帳消しになっています。','注意やアドバイスが、だんだん来なくなっていませんか。言っても無駄だと思われ始めているサインです。'],
+  MGHNO:['責任感、思いやり、誠実さ、自分を振り返る力。人としての基礎は十分すぎるほどあります。問題は、そのすべてに「認められたい」という動機がにじんでいることです。','本当は、いい人でいたいのではなく、いい人だと思われたい。その違いに、あなた自身もうすうす気づいているはずです。','「すごくいい人。でも、ほめないと少しすねる」。周りはそこまで見えています。','感謝や評価が返ってこないと、急に疲れを感じる。その疲れの正体は、見返りを期待している自分です。'],
+  MGHNB:['真面目で思いやりもあり、正直。でも自己愛の強さと他責思考が組み合わさって、「自分は正しい、間違っているのは相手」という構図ができあがっています。','善人である自分を守るために、失敗を認められない。プライドの高さが、あなたの一番の弱点です。','「正しいことを言っているのはわかる。でも、なんか疲れる」。周りはそう感じています。','意見がぶつかると、議論ではなく勝ち負けになりがち。相手はあなたに勝たせて、黙って距離をとっています。'],
+  MGCUO:['責任感も思いやりもあり、謙虚で自分を振り返れる。一見、欠点の少ない人です。ただ、人付き合いの一部に「得かどうか」という計算が入っています。','打算を悪いことだと思っていない。むしろ賢さだと思っている。そこが、あなたの本質です。','「感じはいい。でも、本音はどこにあるんだろう」。親しい人ほど、そう感じています。','付き合いは広いのに、心を許せる人は少ない。相手もあなたに、同じように計算して接しているからです。'],
+  MGCUB:['真面目で、気配りもできて、謙虚。周りから見れば頼れる調整役です。でも内側には打算があり、うまくいかなかったときには上手に責任を外へ逃がします。','自分の評価を守ることに、無意識のうちに全力を注いでいます。','「仕事はできる。でも、何かあったときに味方でいてくれる人ではない」。これが周りの正直な評価です。','トラブルのたびに、あなたの周りから少しずつ人が減っていく。その原因を、あなたはまだ相手のせいにしています。'],
+  MGCNO:['責任感があり、人にやさしく、自分を振り返ることもできる。でもその多くは「好かれるため」の行動です。自己愛と打算が、あなたの人当たりのよさの設計図になっています。','本当の自分を見せたら嫌われる、という不安が根っこにあります。','「完璧すぎて、逆に信用しきれない」。感じのよさが、ときに作り物に見えています。','好かれているのに、満たされない。好かれているのが「作った自分」だからです。'],
+  MGCNB:['真面目さと思いやりという外面は完璧。でも内側は、打算、自己愛、他責の三拍子がそろっています。ダークトライアドの要素が、きれいな包装紙に包まれている状態です。','自分をよく見せることと、自分を守ることに、ものすごく真面目に取り組んでいます。','浅い付き合いの人には評判がいい。深く付き合った人ほど、静かに離れていきます。','「裏がある」と一度思われると、信頼はなかなか戻りません。あなたはすでに、何人かにそう思われています。'],
+  MTHUO:['約束は守る、正直、謙虚、自分を振り返れる。人として信頼できる要素はそろっています。欠けているのは、他人への思いやりです。','悪意はない。ただ、他人の感情にあまり興味がない。あなたにとって大事なのは、正しいかどうかと、効率がいいかどうかです。','「信頼はできる。でも、一緒にいて温かさは感じない」。','仕事の相手としては評価が高いのに、プライベートで誘われることは少ない。理由は、今読んだとおりです。'],
+  MTHUB:['真面目で正直。でも思いやりが薄く、トラブルの原因を外に求める。この組み合わせは、正論で人を追い詰めるタイプを生みます。','自分は間違ったことを言っていない、という確信があなたを支えています。その確信が人を傷つけていることに、気づいていません。','「言っていることは正しい。だから余計に腹が立つ」。','あなたの前では、みんな本音を言わなくなっています。'],
+  MTHNO:['責任感があり、正直で、失敗から学べる。能力が高い人に多いタイプです。ただ、自己愛が強く思いやりが薄いので、「できない人」への目線が厳しくなりがちです。','自分はできる、という自負があなたを動かしています。その自負が、人を見下す目線に変わる瞬間があります。','「すごい人。でも、一緒に働くと少し息苦しい」。','尊敬はされても、慕われにくい。人がついてくるのは、あなたが結果を出している間だけかもしれません。'],
+  MTHNB:['真面目で正直。でも自己中心的で、自己愛が強く、他責思考。能力はあるのに、人間関係では敵を作りやすい典型的なパターンです。','自分の基準で世界を見ていて、その基準に合わない人は「ダメな人」に分類されます。','「仕事はできる。でも、もう関わりたくない」と思っている人が、あなたが思うより多くいます。','周りが無能に見えるとき、周りもあなたを「扱いにくい人」だと見ています。'],
+  MTCUO:['約束は守るし、謙虚で、失敗も自分で受け止める。でも他人への思いやりが薄く、打算で人を見る。人間関係を効率で考えるタイプです。','感情を判断に持ちこまないことを、長所だと思っています。確かに長所ですが、人付き合いでは短所になります。','「頼りにはなる。でも、自分が役に立たなくなったら切られそう」。','利害が一致している間は良好。一致しなくなった瞬間に関係が終わる。それを繰り返していませんか。'],
+  MTCUB:['表面上は真面目で謙虚。でも内側には、思いやりの欠如、打算、他責思考がそろっています。目立たないぶん、周りが気づくまでに時間がかかるタイプです。','声を荒らげることも、目立つこともない。でも損な役回りは、いつの間にか他の誰かに回っています。','気づいた人から順番に、あなたとの距離を置き始めています。','「なぜか周りの人が長続きしない」と感じているなら、その原因はあなたのすぐ近くにあります。'],
+  MTCNO:['責任感があり、失敗から学ぶ力もある。ただ、思いやりより打算、謙虚さより自己愛。目標達成のためなら、人間関係も道具として使う野心家です。','勝ちたい、認められたい、上に行きたい。その欲求の強さが、あなたの原動力です。','「結果は出す。でも、あの人の下では働きたくない」。','成功するほど、本音を言ってくれる人がいなくなっていきます。'],
+  MTCNB:['真面目さだけは本物です。でも自己中心的で、打算的で、自己愛が強く、失敗は人のせい。ダークトライアドの特徴を、仕事の能力でなんとかカバーしている状態です。','成果さえ出していれば、周りは文句を言えない。あなたはそれをよくわかっています。','「能力は認める。人としては無理」。これが、周りのほぼ一致した評価です。','あなたが成果を出せなくなったとき、味方は誰も残っていないかもしれません。'],
+  LGHUO:['約束は守れないし、だらしない。でも思いやりがあり、正直で、謙虚で、失敗を自分のせいだと認められる。カスというより、ポンコツです。','悪気はまったくない。ただ、計画性と実行力が致命的に足りません。','「いい人だから許してる。でも、大事なことは任せられない」。','周りはあなたのフォローに、少しずつ疲れています。「憎めない」が「めんどくさい」に変わる前に。'],
+  LGHUB:['思いやりがあり、正直で謙虚。でもルーズで、うまくいかないと原因を外に探す。「電車が遅れて」「聞いてなかったから」が口ぐせになっていませんか。','自分が悪いと認めると、自分を責めすぎてしまう。だから無意識に、言い訳で自分を守っています。','「いい人。でも、言い訳が多い」。','言い訳が増えるほど、あなたのやさしさまで信じてもらえなくなります。'],
+  LGHNO:['思いやりがあり、正直で、失敗も認められる。でもルーズさと承認欲求が組み合わさって、「注目は集めるけど、責任は果たさない」人になりがちです。','みんなに好かれたい、見てほしい。その気持ちが、あなたの行動のほとんどを決めています。','「一緒にいると楽しい。でも、あてにはしていない」。','盛り上げ役として呼ばれても、大事な相談はされない。その差に、そろそろ気づいていますよね。'],
+  LGHNB:['思いやりと正直さはある。でもルーズで、自己愛が強く、他責思考。いいことを言うのに行動が伴わず、指摘されるとプライドが傷ついて人のせいにする。この流れがパターン化しています。','いい人でいたい気持ちは本物。でも、いい人であるための努力は面倒くさい。','「言ってることはいいんだけどね」。この「けどね」に、あなたへの評価が全部詰まっています。','あなたの「今度やるよ」を、もう誰も待っていません。'],
+  LGCUO:['ルーズで、少し打算的。でも思いやりもあり、謙虚で、失敗も認められる。致命的なカスではないものの、「楽をするための計算」が得意なタイプです。','がんばらずに済む道を、いつも無意識に探しています。','「感じはいい。でも、面倒なことはいつの間にか人に回ってる」。','あなたの要領のよさは、周りの誰かの負担の上に成り立っています。'],
+  LGCUB:['思いやりと謙虚さはある。でもルーズさ、打算、他責思考がそろっていて、「その場では感じがいいけど、あとで困らされる人」という評価になりがちです。','その場をうまく乗り切ることが、あなたの最優先事項です。','「悪い人じゃない。でも、調子がいい」。','口約束の数だけ、あなたの信用は減っています。'],
+  LGCNO:['思いやりがあり、失敗も認められる。でもルーズで、打算と自己愛が強い。人の懐に入るのは得意ですが、その目的はたいてい「好かれたい」か「得をしたい」です。','人に好かれることで、自分の価値を確かめています。','最初は魅力的に見える。長く付き合うと「調子がいいだけ」と気づかれます。','新しい人間関係はすぐできるのに、古い人間関係が続かない。心当たりがあるはずです。'],
+  LGCNB:['思いやりの表現は上手。でもルーズで、打算的で、自己愛が強く、他責思考。愛想のよさで、中身の問題を隠している状態です。','嫌われないことには全力で、責任を果たすことには興味がない。','「いい人そうに見えたのに」。これが、あなたと深く関わった人の感想です。','トラブルが起きるたびに、あなたの笑顔の信用度が下がっています。'],
+  LTHUO:['ルーズで、思いやりは薄め。でも正直で、謙虚で、失敗は自分のせいだと認められる。迷惑をかけることはあっても、悪意はありません。','自分の世界で生きていて、他人のルールや感情にはあまり興味がない。','「悪い人じゃない。でも、自分勝手」。','あなたが自由でいられるのは、周りが合わせてくれているからです。'],
+  LTHUB:['正直で謙虚。でもルーズで、自己中心的で、他責思考。本音は言うけれど責任はとらない、というやっかいな組み合わせです。','自分に正直に生きている。その「自分に正直」が、周りへの無責任になっています。','「裏表はない。でも、振り回される」。','正直さを理由に、言いすぎていないか。一度振り返ってみてください。'],
+  LTHNO:['正直で、失敗も認められる。でもルーズで、自己中心的で、自己愛が強い。「自分ならなんとかなる」という自信が、準備不足と他人への無関心を生んでいます。','自信の根拠は、実はあまりない。でも根拠がなくても自信を持てるのが、あなたです。','「勢いはすごい。でも、一緒に仕事はしたくない」。','失敗を認められるのは長所。問題は、同じ失敗を何度も繰り返していることです。'],
+  LTHNB:['正直ではある。でもルーズで、自己中心的で、自己愛が強く、他責思考。自分には甘く、他人には厳しい。最も嫌われやすい構図が完成しています。','自分の欠点は見えていない。他人の欠点はよく見えている。','「正直、関わりたくない」と思っている人が、あなたの周りに確実にいます。','人が離れていく理由を、あなたは相手の欠点で説明しています。そこが一番の問題です。'],
+  LTCUO:['謙虚で、失敗は認められる。でもルーズで、自己中心的で、打算的。できるだけ楽をして、できるだけ得をしたい、という考えがかなり強めです。','「損をしたくない」が、あなたの行動の一番の理由です。','「ちゃっかりしてる」。表面は笑って言われていても、本音は冷めています。','得を取りにいくたびに、信用という大きなものを失っています。'],
+  LTCUB:['謙虚さはある。でもルーズで、自己中心的で、打算的で、他責思考。責任を負わずに得だけを取る、という立ち回りがかなり身についています。','自分を守ることに関しては、誰よりも頭が回ります。','気づいている人は、もうあなたに大事なことを任せていません。','責任を押しつけられた人たちは、あなたが思うより長く覚えています。'],
+  LTCNO:['失敗を認める力は残っています。でもルーズで、自己中心的で、打算的で、自己愛が強い。ダークトライアドの特徴がかなりそろっていて、口のうまさでそれを補っている状態です。','自分をよく見せる言葉を選ぶのが、とてもうまい。','最初は魅力的。長く付き合うと「中身がない」と気づかれます。','あなたが失敗を認めたとき、それを信じてもらえるかどうか。いまの信用残高を確認してください。'],
+  LTCNB:['ルーズで、自己中心的で、打算的で、自己愛が強く、失敗は人のせい。この診断で測った5つの特性すべてで、カス側に振り切れています。人間関係で信頼を得るのが最も難しいパターンです。','ただし、ここまで正直に答えたのなら、それはひとつの誠実さです。自分のカスな部分を認められる人は、実はそう多くありません。','周りの評価は、たぶんあなたが想像しているとおりです。','変わるなら、5つ全部を一度に直そうとしないこと。まずは「約束をひとつ守る」から。それだけで、周りの見る目は少し変わります。']
+};
+
+const ARTIFACT_URL = 'https://claude.ai/artifact/UjazTSPYFV8xHF6TdMU1Ex';
+const SHARE_URL = /(\.github\.io|\.netlify\.app|\.pages\.dev|\.vercel\.app)$/.test(location.hostname)
+  ? location.origin + location.pathname : ARTIFACT_URL;
+
+const CODES = [];
+for (const a of 'ML') for (const b of 'GT') for (const c of 'HC') for (const d of 'UN') for (const e of 'OB') CODES.push(a+b+c+d+e);
+function pole(code,i){ return AX[i].poles[AX[i].poles[0].c === code[i] ? 0 : 1]; }
+const isBad = (code,i) => code[i] === AX[i].poles[1].c;
+
+/* ---------- カス度 ---------- */
+function kasu(code, pct){
+  const p = pct || AX.map((ax,i) => isBad(code,i) ? 12 : 88); // pct = まとも側の割合
+  const v = Math.round(AX.reduce((s,ax,i) => s + ax.w * (100 - p[i]) / 100, 0));
+  const lv = v<20 ? ['聖人','カスの要素はほぼありません。自己申告が正直なら、ですが。'] :
+             v<35 ? ['まっとうな人','多少の欠点はあっても、人として信頼される範囲です。'] :
+             v<50 ? ['普通の人間','誰にでもあるカスさを、誰にでもある程度に持っています。'] :
+             v<65 ? ['小さなカス','ところどころにカスが見えます。周りは気づいています。'] :
+             v<80 ? ['立派なカス','自覚があるなら、まだ間に合います。'] :
+                    ['真性のカス','言葉を選ぶ余地がありません。'];
+  return {v, lv};
+}
+
+/* ---------- イラスト ---------- */
+const INK = '#1C2233';
+// 体の形（まる／たまご／おもち／しずく）
+const BODIES = [
+  {top:62, d:'M100 62 C141 60 165 92 163 128 C161 163 135 179 100 179 C63 179 37 161 37 126 C37 90 61 64 100 62Z', hl:44, hr:156},
+  {top:52, d:'M100 52 C137 52 158 92 156 130 C154 165 132 180 100 180 C68 180 46 165 44 130 C42 92 63 52 100 52Z', hl:50, hr:150},
+  {top:78, d:'M100 78 C150 76 172 106 170 140 C168 170 140 181 100 181 C60 181 32 170 30 140 C28 106 50 80 100 78Z', hl:36, hr:164},
+  {top:64, d:'M100 64 C128 64 140 88 142 108 C164 122 170 160 150 173 C136 182 64 182 50 173 C30 160 36 122 58 108 C60 88 72 64 100 64Z', hl:46, hr:154}
+];
+const I = (x) => `stroke="${INK}" stroke-width="${x||2.5}" stroke-linejoin="round" stroke-linecap="round"`;
+// 32タイプそれぞれの持ち物（右上に浮かぶ小物。48×48の座標で描く）
+const PROPS = {
+  MGHUO:`<path d="M12 6 h24 v10 a12 12 0 0 1 -24 0z" fill="#F2C94C" ${I()}/><path d="M12 9 h-5 a5 5 0 0 0 5 9 M36 9 h5 a5 5 0 0 1 -5 9" fill="none" ${I()}/><rect x="21" y="27" width="6" height="8" fill="#F2C94C" ${I()}/><rect x="14" y="35" width="20" height="7" rx="2" fill="#8A5A2B" ${I()}/>`,
+  MGHUB:`<path d="M24 4 L42 10 V24 C42 36 32 42 24 46 C16 42 6 36 6 24 V10Z" fill="#7FB3F5" ${I()}/><path d="M16 24 l6 6 11 -12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
+  MGHNO:`<path d="M14 2 L22 18 M34 2 L26 18" stroke="#E5484D" stroke-width="7"/><circle cx="24" cy="30" r="13" fill="#F2C94C" ${I()}/><path d="M24 22 l2.6 5.4 5.9 .8 -4.3 4.1 1 5.8 -5.2 -2.8 -5.2 2.8 1 -5.8 -4.3 -4.1 5.9 -.8z" fill="#fff"/>`,
+  MGHNB:`<rect x="6" y="8" width="26" height="14" rx="3" fill="#A0673A" ${I()} transform="rotate(-30 19 15)"/><path d="M22 20 L40 44" stroke="#6B4423" stroke-width="6" stroke-linecap="round"/><rect x="4" y="40" width="24" height="6" rx="2" fill="#6B4423" ${I(2)}/>`,
+  MGCUO:`<circle cx="24" cy="24" r="19" fill="#fff" ${I()}/><path d="M24 8 L29 24 L24 40 L19 24Z" fill="#E5484D"/><path d="M24 24 L29 24 L24 40 L19 24Z" fill="#2E3D66"/><circle cx="24" cy="24" r="2.5" fill="${INK}"/>`,
+  MGCUB:`<rect x="8" y="3" width="32" height="42" rx="5" fill="#9AA5B8" ${I()}/><rect x="13" y="8" width="22" height="9" rx="2" fill="#CFF5D8" ${I(2)}/><g fill="#fff" ${I(1.5)}><rect x="13" y="21" width="6" height="5" rx="1"/><rect x="21" y="21" width="6" height="5" rx="1"/><rect x="29" y="21" width="6" height="5" rx="1"/><rect x="13" y="29" width="6" height="5" rx="1"/><rect x="21" y="29" width="6" height="5" rx="1"/><rect x="29" y="29" width="6" height="13" rx="1" fill="#E5484D"/><rect x="13" y="37" width="14" height="5" rx="1"/></g>`,
+  MGCNO:`<ellipse cx="22" cy="19" rx="15" ry="16" fill="#CFE8FF" ${I()}/><path d="M14 12 q4 -4 9 -3" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M27 33 L40 46" stroke="#B374F0" stroke-width="7" stroke-linecap="round"/>`,
+  MGCNB:`<path d="M4 16 Q24 6 44 16 Q42 32 30 30 Q24 24 18 30 Q6 32 4 16Z" fill="#fff" ${I()}/><ellipse cx="14" cy="19" rx="5" ry="3.5" fill="${INK}"/><ellipse cx="34" cy="19" rx="5" ry="3.5" fill="${INK}"/><path d="M40 26 L44 46" stroke="#B8860B" stroke-width="4" stroke-linecap="round"/>`,
+  MTHUO:`<rect x="8" y="6" width="32" height="40" rx="4" fill="#B98A5A" ${I()}/><rect x="12" y="12" width="24" height="30" fill="#fff" ${I(1.5)}/><rect x="18" y="3" width="12" height="7" rx="2" fill="#9AA5B8" ${I(2)}/><path d="M15 20 l2 2 4 -4 M15 28 l2 2 4 -4 M15 36 l2 2 4 -4 M24 20 h9 M24 28 h9 M24 36 h9" fill="none" stroke="#3AA7A0" stroke-width="2.2" stroke-linecap="round"/>`,
+  MTHUB:`<rect x="8" y="4" width="32" height="40" rx="3" fill="#2E3D66" ${I()}/><rect x="10" y="40" width="30" height="5" fill="#fff" ${I(1.5)}/><text x="24" y="29" font-size="13" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="800">正論</text>`,
+  MTHNO:`<path d="M6 44 V6 M6 44 H44" fill="none" ${I(3)}/><path d="M10 38 L20 28 L28 32 L40 12" fill="none" stroke="#3AA7A0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 11 L41 10 L40 19" fill="none" stroke="#3AA7A0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
+  MTHNB:`<rect x="6" y="4" width="30" height="40" rx="3" fill="#fff" ${I()}/><path d="M12 14 L28 30 M28 14 L12 30" stroke="#E5484D" stroke-width="4.5" stroke-linecap="round"/><path d="M32 30 L44 42" stroke="#E5484D" stroke-width="6" stroke-linecap="round"/><path d="M44 42 l3 3" stroke="${INK}" stroke-width="2"/>`,
+  MTCUO:`<path d="M14 44 h22 v-6 h-3 C34 30 32 24 34 18 C30 10 22 6 16 10 L10 18 L14 22 L20 20 C18 28 14 32 16 38 h-2z" fill="#2E3D66" ${I()}/><circle cx="21" cy="14" r="2" fill="#fff"/>`,
+  MTCUB:`<path d="M14 16 C6 24 6 44 24 44 C42 44 42 24 34 16Z" fill="#D9B26F" ${I()}/><path d="M16 16 Q24 10 32 16 L30 8 Q24 12 18 8Z" fill="#C49A52" ${I()}/><text x="24" y="37" font-size="14" text-anchor="middle" fill="${INK}" font-family="sans-serif" font-weight="800">¥</text>`,
+  MTCNO:`<path d="M24 2 C34 10 36 24 32 34 H16 C12 24 14 10 24 2Z" fill="#fff" ${I()}/><circle cx="24" cy="18" r="4.5" fill="#7FB3F5" ${I(2)}/><path d="M16 26 L8 36 L16 34Z M32 26 L40 36 L32 34Z" fill="#E5484D" ${I(2)}/><path d="M18 36 Q24 50 30 36Z" fill="#F2A93B"/>`,
+  MTCNB:`<rect x="4" y="16" width="40" height="28" rx="4" fill="#6B4423" ${I()}/><path d="M17 16 v-6 h14 v6" fill="none" ${I()}/><rect x="10" y="4" width="22" height="12" rx="1" fill="#8FD19E" ${I(1.8)} transform="rotate(-18 21 10)"/><path d="M4 28 h40" stroke="${INK}" stroke-width="2"/><rect x="21" y="25" width="6" height="7" rx="1" fill="#F2C94C" ${I(1.5)}/>`,
+  LGHUO:`<path d="M8 16 h22 l-3 22 h-16z" fill="#fff" ${I()} transform="rotate(35 19 27)"/><path d="M30 16 a5 5 0 0 1 3 9" fill="none" ${I()} transform="rotate(35 19 27)"/><ellipse cx="22" cy="42" rx="18" ry="5" fill="#8A5A2B" opacity=".8"/><path d="M34 6 q4 4 0 8 M40 4 q4 4 0 8" fill="none" stroke="#9AA5B8" stroke-width="2.5" stroke-linecap="round"/>`,
+  LGHUB:`<circle cx="24" cy="27" r="16" fill="#fff" ${I()}/><circle cx="12" cy="10" r="6" fill="#E5484D" ${I(2)}/><circle cx="36" cy="10" r="6" fill="#E5484D" ${I(2)}/><path d="M24 27 V17 M24 27 L31 31" ${I(3)}/><path d="M14 44 l-3 3 M34 44 l3 3" ${I(3)}/>`,
+  LGHNO:`<rect x="18" y="4" width="16" height="22" rx="8" fill="#9AA5B8" ${I()}/><path d="M22 10 h8 M22 15 h8 M22 20 h8" stroke="${INK}" stroke-width="1.5"/><path d="M26 26 V40 M18 44 h16" ${I(3)}/><path d="M8 8 l4 3 M6 18 h5 M42 8 l-3 3" stroke="#F2A93B" stroke-width="3" stroke-linecap="round"/>`,
+  LGHNB:`<path d="M4 8 h40 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-24 l-8 8 v-8 h-8 a4 4 0 0 1 -4 -4 v-16 a4 4 0 0 1 4 -4z" fill="#fff" ${I()}/><text x="24" y="25" font-size="10" text-anchor="middle" fill="${INK}" font-family="sans-serif" font-weight="800">今度やる</text>`,
+  LGCUO:`<rect x="4" y="16" width="40" height="24" rx="11" fill="#CFE8FF" ${I()}/><path d="M14 24 q10 6 20 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><text x="34" y="12" font-size="11" fill="${INK}" font-family="sans-serif" font-weight="800">zzz</text>`,
+  LGCUB:`<path d="M10 22 h8 V42 h-8z" fill="#F7D3B0" ${I()}/><path d="M18 24 L24 8 Q28 4 30 10 L28 20 h10 a4 4 0 0 1 4 5 l-3 14 a4 4 0 0 1 -4 3 H18z" fill="#F7D3B0" ${I()}/><text x="38" y="10" font-size="9" fill="#E5484D" font-family="sans-serif" font-weight="800">OK!</text>`,
+  LGCNO:`<path d="M14 26 L24 46 L34 26Z" fill="#8FD19E" ${I()}/><circle cx="16" cy="18" r="7" fill="#FF8FA8" ${I(2)}/><circle cx="32" cy="18" r="7" fill="#F2C94C" ${I(2)}/><circle cx="24" cy="10" r="7" fill="#B374F0" ${I(2)}/><circle cx="16" cy="18" r="2" fill="#fff"/><circle cx="32" cy="18" r="2" fill="#fff"/><circle cx="24" cy="10" r="2" fill="#fff"/>`,
+  LGCNB:`<path d="M14 26 Q22 36 24 46 M34 22 Q28 36 24 46 M24 20 V46" fill="none" stroke="${INK}" stroke-width="1.5"/><ellipse cx="13" cy="15" rx="9" ry="11" fill="#FF6B8A" ${I()}/><ellipse cx="35" cy="12" rx="9" ry="11" fill="#7FB3F5" ${I()}/><ellipse cx="24" cy="9" rx="8" ry="9" fill="#F2C94C" ${I()}/>`,
+  LTHUO:`<path d="M8 28 A16 16 0 0 1 40 28" fill="none" ${I(4)}/><rect x="4" y="26" width="10" height="16" rx="4" fill="#3AA7A0" ${I()}/><rect x="34" y="26" width="10" height="16" rx="4" fill="#3AA7A0" ${I()}/><path d="M22 2 v10 l6 -2 v8" fill="none" ${I(2)}/><circle cx="20" cy="12" r="2.6" fill="${INK}"/><circle cx="26" cy="18" r="2.6" fill="${INK}"/>`,
+  LTHUB:`<path d="M6 20 Q6 12 14 12 H34 Q42 12 42 20 L44 34 Q44 42 36 40 L30 34 H18 L12 40 Q4 42 4 34Z" fill="#9AA5B8" ${I()}/><path d="M14 20 v8 M10 24 h8" stroke="${INK}" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="21" r="2.6" fill="#E5484D"/><circle cx="37" cy="26" r="2.6" fill="#3AA7A0"/>`,
+  LTHNO:`<path d="M24 4 l5.5 11 12 1.6 -8.8 8.4 2.2 12 -10.9 -5.8 -10.9 5.8 2.2 -12 -8.8 -8.4 12 -1.6z" fill="#F2C94C" ${I()}/>`,
+  LTHNB:`<circle cx="24" cy="26" r="18" fill="#E8A968" ${I()}/><circle cx="24" cy="26" r="17" fill="#FF8FA8" opacity=".9"/><circle cx="24" cy="26" r="6" fill="var(--card,#fff)" ${I()}/><path d="M14 18 l2 3 M30 14 l-1 3 M34 28 l3 1 M16 34 l3 -2 M26 38 l1 3" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`,
+  LTCUO:`<rect x="4" y="10" width="40" height="28" rx="3" fill="#FFF3C4" ${I()}/><path d="M12 10 v28" stroke="${INK}" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="29" cy="24" r="9" fill="#E5484D"/><text x="29" y="28.5" font-size="11" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="800">当</text>`,
+  LTCUB:`<circle cx="22" cy="30" r="15" fill="#2E3D66" ${I()}/><path d="M16 22 q3 -4 7 -3" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/><rect x="26" y="12" width="9" height="7" rx="2" fill="#9AA5B8" ${I(2)} transform="rotate(35 30 15)"/><path d="M34 12 Q38 4 44 6" fill="none" ${I(2)}/><path d="M44 6 l-3 -4 M44 6 l4 -2 M44 6 l2 4" stroke="#F2A93B" stroke-width="2.5" stroke-linecap="round"/>`,
+  LTCNO:`<path d="M6 18 L26 10 V38 L6 30Z" fill="#E5484D" ${I()}/><path d="M26 10 L40 4 V44 L26 38" fill="#F2A93B" ${I()}/><rect x="10" y="30" width="8" height="12" rx="2" fill="#9AA5B8" ${I(2)}/>`,
+  LTCNB:`<path d="M24 46 V12" ${I(4)}/><path d="M12 4 V14 Q12 20 24 20 Q36 20 36 14 V4 M24 4 V20" fill="none" stroke="#E5484D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 8 L12 2 L15 8 M21 8 L24 2 L27 8 M33 8 L36 2 L39 8" fill="#E5484D" ${I(2)}/>`
+};
+// 背景の小さな模様（4種類）
+const BGDECO = [
+  (c) => `<g fill="${c}" opacity=".55"><circle cx="30" cy="40" r="4"/><circle cx="176" cy="92" r="3"/><circle cx="24" cy="150" r="3.5"/><circle cx="178" cy="168" r="2.5"/></g>`,
+  (c) => `<g fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round" opacity=".6"><path d="M26 44 l6 6 M32 44 l-6 6"/><path d="M172 96 l6 6 M178 96 l-6 6"/><path d="M22 160 l5 5 M27 160 l-5 5"/></g>`,
+  (c) => `<g fill="${c}" opacity=".6"><path d="M28 36 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/><path d="M178 92 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6z"/><path d="M22 156 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6z"/></g>`,
+  (c) => `<g fill="none" stroke="${c}" stroke-width="3" opacity=".55"><circle cx="30" cy="42" r="6"/><circle cx="176" cy="96" r="4.5"/><circle cx="24" cy="156" r="5"/></g>`
+];
+
+// 4つの系統（責任感×思いやりの組み合わせ）
+const GENRES = {
+  MG:{n:'いい人系', hue:160, item:'ハートのバッジ', d:'真面目で思いやりもある。ほかの特性しだいで、本物の善人にも外面だけの人にもなる系統。'},
+  MT:{n:'仕事人系', hue:214, item:'ネクタイ', d:'責任感はあるが、他人への関心は薄め。能力で評価される一方、人としての評価は分かれる系統。'},
+  LG:{n:'ゆるふわ系', hue:34, item:'頭の双葉', d:'ルーズだけど人はいい。憎めないけれど、あてにはされにくい系統。'},
+  LT:{n:'自分勝手系', hue:292, item:'首のバンダナ', d:'ルーズで自分中心。自由と身勝手の境目にいる系統。'}
+};
+const genreOf = code => GENRES[code[0]+code[1]];
+
+function charSVG(code, opt = {}){
+  const k = kasu(code).v, bad = i => isBad(code,i), idx = CODES.indexOf(code), ink = INK;
+  const B = BODIES[0], dy = 0, G = genreOf(code), v8 = idx % 8;
+  const hue = G.hue + (v8 % 4 - 1.5) * 7, col = `hsl(${hue} 62% ${80 - (v8>>2)*6 - k*0.05}%)`, deco = `hsl(${hue} 60% 52%)`;
+  let s = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${TYPES[code][0]}のイラスト">`;
+  if (opt.bg !== false) s += `<circle cx="100" cy="102" r="92" fill="${col}" opacity=".25"/>` + BGDECO[idx % BGDECO.length](deco);
+  s += `<ellipse cx="100" cy="185" rx="60" ry="7" fill="#1C2233" opacity=".15"/>`;
+  s += `<g transform="translate(0 ${dy})">`;
+  if (code==='MGHUO') s += `<ellipse cx="100" cy="40" rx="34" ry="9" fill="none" stroke="#F2C94C" stroke-width="6"/>`;
+  if (code==='LTCNB') s += `<path d="M66 72 L56 36 L84 64Z M134 72 L144 36 L116 64Z" fill="#E5484D" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>`;
+  s += `</g>`;
+  s += `<path d="${B.d}" fill="${col}" stroke="${ink}" stroke-width="3.5"/>`;
+  s += `<g transform="translate(0 ${dy})">`;
+  if (G.n==='ゆるふわ系') s += `<path d="M66 72 Q60 56 64 46" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/><path d="M64 48 C52 44 46 34 50 28 C60 30 66 38 64 48Z" fill="#6CCB6C" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/><path d="M64 48 C70 38 80 36 84 40 C80 48 72 50 64 48Z" fill="#8FDC8F" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  if (bad(0)) s += `<path d="M78 66 l-8 -16 l14 8 l2 -16 l8 14 l8 -16 l4 16 l12 -10 l-4 18" fill="${col}" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>`;
+  else s += `<path d="M64 76 Q100 50 138 76 Q118 66 104 72 L100 64 Q86 64 64 76Z" fill="#1C2233"/>`;
+  if (bad(3)) s += `<path d="M76 58 L80 34 L92 48 L100 28 L108 48 L120 34 L124 58Z" fill="#F2C94C" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><circle cx="100" cy="46" r="3.5" fill="#E5484D"/>`;
+  s += `</g>`;
+  // 眉（自己愛×他責＝つり眉／思いやり×謙虚＝困り眉）
+  if (bad(3) && bad(4)) s += `<path d="M66 98 L88 104 M134 98 L112 104" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>`;
+  else if (!bad(1) && !bad(3)) s += `<path d="M68 102 L86 98 M132 102 L114 98" stroke="${ink}" stroke-width="3" stroke-linecap="round"/>`;
+  // 目
+  if (code==='LTHNO'){
+    s += `<path d="M62 106 h34 l-4 14 h-26z M104 106 h34 l-4 14 h-26z" fill="${ink}"/><path d="M96 110 h8" stroke="${ink}" stroke-width="3"/><path d="M70 110 l6 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
+  } else if (bad(2)){
+    s += `<ellipse cx="78" cy="114" rx="10" ry="7" fill="#fff" stroke="${ink}" stroke-width="2.5"/><ellipse cx="122" cy="114" rx="10" ry="7" fill="#fff" stroke="${ink}" stroke-width="2.5"/><circle cx="84" cy="115" r="4" fill="${ink}"/><circle cx="128" cy="115" r="4" fill="${ink}"/>`;
+    if (bad(0)) s += `<path d="M66 110 h24 M110 110 h24" stroke="${col}" stroke-width="8"/><path d="M67 111 h22 M111 111 h22" stroke="${ink}" stroke-width="2.8" stroke-linecap="round"/>`;
+  } else if (bad(3)){
+    s += `<circle cx="78" cy="114" r="8" fill="${ink}"/><path d="M78 108 l1.6 3.4 3.6 .5 -2.6 2.5 .6 3.6 -3.2 -1.7 -3.2 1.7 .6 -3.6 -2.6 -2.5 3.6 -.5z" fill="#F2C94C"/><circle cx="122" cy="114" r="8" fill="${ink}"/><path d="M122 108 l1.6 3.4 3.6 .5 -2.6 2.5 .6 3.6 -3.2 -1.7 -3.2 1.7 .6 -3.6 -2.6 -2.5 3.6 -.5z" fill="#F2C94C"/>`;
+  } else if (bad(0)){
+    s += `<path d="M68 114 q10 6 20 0 M112 114 q10 6 20 0" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>`;
+  } else {
+    s += `<circle cx="78" cy="114" r="7.5" fill="${ink}"/><circle cx="81" cy="110.5" r="2.8" fill="#fff"/><circle cx="122" cy="114" r="7.5" fill="${ink}"/><circle cx="125" cy="110.5" r="2.8" fill="#fff"/>`;
+  }
+  s += `<ellipse cx="60" cy="132" rx="8" ry="4.5" fill="#FF8FA8" opacity=".6"/><ellipse cx="140" cy="132" rx="8" ry="4.5" fill="#FF8FA8" opacity=".6"/>`;
+  // 口
+  if (bad(2)) s += `<path d="M88 136 q12 6 24 -6" fill="none" stroke="${ink}" stroke-width="3.2" stroke-linecap="round"/>`;
+  else if (bad(1)) s += `<path d="M90 140 q10 -7 20 0" fill="none" stroke="${ink}" stroke-width="3.2" stroke-linecap="round"/>`;
+  else if (bad(0)) s += `<ellipse cx="100" cy="138" rx="6" ry="5" fill="${ink}"/>`;
+  else s += `<path d="M90 134 q10 11 20 0" fill="none" stroke="${ink}" stroke-width="3.2" stroke-linecap="round"/>`;
+  // 汗（ルーズ×思いやり＝あたふた）
+  if (bad(0) && !bad(1)) s += `<path d="M146 88 C152 98 154 104 146 108 C138 104 140 98 146 88Z" fill="#7CC8F5" stroke="${ink}" stroke-width="2"/>`;
+  // 系統アイテム（胸元）
+  if (G.n==='いい人系') s += `<circle cx="122" cy="160" r="10" fill="#fff" stroke="${ink}" stroke-width="2.5"/><path d="M122 166 C115 161 116 154 122 157 C128 154 129 161 122 166Z" fill="#FF6B8A"/>`;
+  if (G.n==='仕事人系') s += `<path d="M93 150 L107 150 L104 157 L96 157Z" fill="#E5484D" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/><path d="M96 157 L104 157 L109 172 L100 179 L91 172Z" fill="#E5484D" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/><path d="M95 165 L105 161 M93 172 L107 167" stroke="#fff" stroke-width="2" opacity=".7"/>`;
+  if (G.n==='自分勝手系') s += `<path d="M64 150 Q100 162 136 150 L134 158 Q100 170 66 158Z" fill="#E5484D" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/><path d="M84 160 L100 180 L116 160Z" fill="#E5484D" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/><g fill="#fff"><circle cx="92" cy="164" r="1.8"/><circle cx="104" cy="166" r="1.8"/><circle cx="100" cy="173" r="1.8"/><circle cx="80" cy="156" r="1.6"/><circle cx="120" cy="156" r="1.6"/></g>`;
+  // 右手
+  if (bad(1)) s += `<path d="M150 150 L184 138 L184 158 L150 164Z" fill="#FFE3B8" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/><path d="M150 150 L184 138 L184 144 L150 156Z" fill="#FF8FA8" stroke="${ink}" stroke-width="2"/><circle cx="178" cy="134" r="4" fill="#E5484D" stroke="${ink}" stroke-width="2"/>`;
+  else s += `<path d="M168 162 C150 150 154 136 168 142 C182 136 186 150 168 162Z" fill="#FF6B8A" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  s += `<circle cx="${B.hr}" cy="152" r="8" fill="${col}" stroke="${ink}" stroke-width="3"/>`;
+  // 左手
+  if (bad(4)) s += `<path d="M${B.hl} 148 L14 140" stroke="${ink}" stroke-width="3.2" stroke-linecap="round"/><path d="M12 136 L4 140 L12 144" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${B.hl}" cy="148" r="8" fill="${col}" stroke="${ink}" stroke-width="3"/><rect x="2" y="84" width="54" height="20" rx="7" fill="#fff" stroke="${ink}" stroke-width="2"/><text x="29" y="98" font-size="11" text-anchor="middle" fill="${ink}" font-family="sans-serif" font-weight="700">あいつが</text>`;
+  else s += `<circle cx="${B.hl}" cy="152" r="8" fill="${col}" stroke="${ink}" stroke-width="3"/>`;
+  // タイプ固有の持ち物
+  if (PROPS[code]) s += `<g transform="translate(146 14)">${PROPS[code]}</g>`;
+  return s + `</svg>`;
+}
+
+/* ---------- 画面 ---------- */
+function show(id){ document.querySelectorAll('.view').forEach(v => v.hidden = v.id !== id); window.scrollTo(0,0); }
+document.getElementById('brand').addEventListener('click', () => { refreshLast(); show('home'); });
+document.getElementById('topZukan').addEventListener('click', () => { renderZukan(); show('zukan'); });
+
+const stage = document.getElementById('stage');
+function setStage(code){
+  stage.innerHTML = charSVG(code, {bg:false});
+  document.getElementById('stageName').textContent = TYPES[code][0];
+  stage.classList.remove('swap'); void stage.offsetWidth; stage.classList.add('swap');
+}
+let stageCode = CODES[Math.floor(Math.random()*32)];
+setStage(stageCode);
+stage.addEventListener('click', () => { let nx; do { nx = CODES[Math.floor(Math.random()*32)]; } while (nx===stageCode); stageCode = nx; setStage(nx); });
+document.getElementById('axesIntro').innerHTML = AX.map(ax =>
+  `<div><span class="dot" style="background:${ax.color}"></span><span><b>${ax.q}：${ax.poles[0].n} ⇔ ${ax.poles[1].n}</b><small>心理学でいう「${ax.k}」にあたる特性</small></span></div>`).join('');
+document.getElementById('genres').innerHTML = Object.entries(GENRES).map(([k,g]) => {
+  const ex = CODES.find(c => c.startsWith(k) && c.endsWith('UO')) || CODES.find(c => c.startsWith(k));
+  return `<button class="gcard" data-g="${k}" style="--gc:hsl(${g.hue} 55% 45%)">${charSVG(ex)}<span><b>${g.n}</b><small>目印：${g.item}</small><em>${g.d}</em></span></button>`;
+}).join('');
+document.getElementById('genres').addEventListener('click', e => { const b = e.target.closest('.gcard'); if (!b) return; zg = b.dataset.g; zl = 'all'; zt = 'all'; renderZukan(); show('zukan'); });
+(function(){
+  const pick = [...CODES].sort(() => Math.random() - .5).slice(0,6);
+  const el = document.getElementById('peek');
+  el.innerHTML = pick.map(c => `<button data-code="${c}">${charSVG(c)}<b>${TYPES[c][0]}</b></button>`).join('');
+  el.addEventListener('click', e => { const b = e.target.closest('button'); if (b) renderResult(b.dataset.code, null, false); });
+})();
+document.getElementById('zukanBtn').addEventListener('click', () => { renderZukan(); show('zukan'); });
+
+/* ---------- 質問 ---------- */
+let answers = new Array(Q.length).fill(null), qi = 0;
+const VALS = [3,2,1,-1,-2,-3];
+const LABELS = ['とてもあてはまる','あてはまる','ややあてはまる','ややあてはまらない','あてはまらない','まったくあてはまらない'];
+function renderQ(){
+  const q = Q[qi];
+  document.getElementById('qCount').textContent = `Q${qi+1} / ${Q.length}`;
+  const tag = document.getElementById('qTag');
+  tag.textContent = q.deep ? '場面を想像して答えてください' : '直感で答えてください';
+  tag.className = 'qtag' + (q.deep ? ' deep' : '');
+  document.getElementById('qText').textContent = q.t;
+  document.getElementById('qbar').style.width = (qi / Q.length * 100) + '%';
+  document.getElementById('scale').innerHTML = VALS.map((v,i) => `<button class="blob ${answers[qi]===v?'sel':''}" data-v="${v}" aria-label="${LABELS[i]}"></button>`).join('');
+  const card = document.getElementById('qcard'); card.classList.remove('enter'); void card.offsetWidth; card.classList.add('enter');
+}
+document.getElementById('scale').addEventListener('click', ev => {
+  const b = ev.target.closest('.blob'); if (!b) return;
+  answers[qi] = Number(b.dataset.v); b.classList.add('sel');
+  setTimeout(() => { if (qi < Q.length-1){ qi++; renderQ(); } else finish(); }, 200);
+});
+document.getElementById('qBack').addEventListener('click', () => { if (qi===0){ show('home'); return; } qi--; renderQ(); });
+document.getElementById('startBtn').addEventListener('click', () => { answers = new Array(Q.length).fill(null); qi = 0; renderQ(); show('quiz'); });
+
+function finish(){
+  const sc=[0,0,0,0,0], first=[null,null,null,null,null];
+  Q.forEach((q,i) => { const v = answers[i]*q.key; sc[q.ax]+=v; if (first[q.ax]===null) first[q.ax]=v; });
+  const code = AX.map((ax,i) => ((sc[i]!==0?sc[i]:first[i]) > 0 ? ax.poles[0].c : ax.poles[1].c)).join('');
+  const pct = sc.map(s => Math.round((s+12)/24*100));
+  try { localStorage.setItem('kasujin-last', JSON.stringify({code,pct})); } catch(e){}
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ renderResult(code, pct, true); return; }
+  const lt = document.getElementById('loadText'); lt.textContent = '回答を分析しています…';
+  show('loading');
+  setTimeout(() => lt.textContent = '5つの特性を評価しています…', 900);
+  setTimeout(() => renderResult(code, pct, true), 1900);
+}
+
+/* ---------- 結果 ---------- */
+function renderResult(code, pct, mine){
+  const [name, catchline] = TYPES[code];
+  const dp = DEEP[code], friend = !!renderResult.friend, k = kasu(code, pct);
+  const shareText = `わたしのカス度は${k.v}%、タイプは「${name}」でした。\n${catchline}\n\n詳しい評価はこちら👇\n${SHARE_URL}?t=${code}\n#カス人間診断`;
+  const chips = `<span class="chip genre" style="background:hsl(${genreOf(code).hue} 55% 45%);border-color:transparent">${genreOf(code).n}</span>` + AX.map((ax,i) => `<span class="chip ${isBad(code,i)?'bad':''}">${pole(code,i).n}</span>`).join('');
+  const axes = AX.map((ax,i) => {
+    const p = pole(code,i), b = isBad(code,i);
+    const bar = pct ? `<div class="track"><b style="width:${100-pct[i]}%;background:${ax.color}"></b></div><div class="track-row"><span>${ax.poles[0].n}</span><span>${ax.poles[1].n}寄り ${100-pct[i]}%</span></div>` : '';
+    return `<div class="axis"><div class="axis-top"><b>${ax.q}</b><span class="badge" style="background:${b?'var(--red)':'var(--good)'}">${p.n}</span></div>${bar}<p>${p.d}</p><div class="sci">${p.e}</div></div>`;
+  }).join('');
+  const fixes = `<ul class="pts">` + AX.map((ax,i) => { const p = pole(code,i);
+    return `<li><span class="mk" style="background:${ax.color}">${i+1}</span><span><small>${ax.q}：${p.n}</small>${p.f}</span></li>`; }).join('') + `</ul>`;
+  const flip = (cd, is) => cd.split('').map((ch,i) => is.includes(i) ? (AX[i].poles[0].c===ch ? AX[i].poles[1].c : AX[i].poles[0].c) : ch).join('');
+  const pals = [
+    [flip(code,[0,1]),'補い合える人','責任感と思いやりの向きが逆。あなたの欠けている部分を、自然に補ってくれます。'],
+    [flip(code,[2,3]),'衝突しやすい人','正直さと自己愛の向きが逆。お互いの一番嫌なところが、いちばんよく見える相手です。'],
+    [flip(code,[4]),'似た者同士','ほとんど同じ特性を持つ相手。違うのは、失敗したときに誰のせいにするかだけです。']
+  ];
+  const shareBlock = mine ? `<div class="card"><h2 class="h">結果をシェアする</h2>
+      <div class="share"><a class="btn line sm" target="_blank" rel="noopener" href="https://line.me/R/share?text=${encodeURIComponent(shareText)}">LINEで送る</a>
+      <button class="btn navy sm" id="linkBtn">リンクをコピー</button>
+      <button class="btn sub sm" id="copyBtn">結果をコピー</button></div>
+      <p class="toast" id="toast" aria-live="polite"></p></div>` : '';
+
+  document.getElementById('resultBody').innerHTML = `
+    <div class="rhero"><div class="wrap">
+      <p class="kicker">${mine ? 'あなたの評価結果' : (friend ? '友達の評価結果' : 'タイプ図鑑')}</p>
+      <div class="pic">${charSVG(code, {bg:false})}</div>
+      <h1 class="rname h">${name}</h1>
+      <p class="rcatch">${catchline}</p>
+      <div class="chips">${chips}</div>
+    </div></div>
+    <div class="wrap">
+      <div class="card score">
+        <span class="label">${pct ? 'あなたの' : 'このタイプの'}カス度</span>
+        <p class="snum h">${k.v}<small> / 100</small></p>
+        <p class="slevel h">${k.lv[0]}</p>
+        <p class="sdesc">${k.lv[1]}</p>
+        <div class="meter" role="img" aria-label="カス度 ${k.v}"><i style="left:${k.v}%"></i></div>
+        <div class="meter-row"><span>聖人</span><span>普通</span><span>真性のカス</span></div>
+      </div>
+      ${shareBlock}
+      <div class="card deep"><h2 class="h">総合評価</h2>
+        <p>${dp[0]}</p>
+        <h3>あなたの本質</h3><p>${dp[1]}</p>
+        <h3>周りからの本当の評価</h3><p>${dp[2]}</p>
+        <h3>人間関係で起きていること</h3><p>${dp[3]}</p>
+      </div>
+      <div class="card"><h2 class="h">特性ごとの評価</h2>${axes}</div>
+      <div class="card"><h2 class="h">改善するなら</h2><p class="intro">変えられるのは、行動だけです。ひとつずつで構いません。</p>${fixes}</div>
+      <div class="card"><h2 class="h">この評価の読み方</h2>
+        <p style="margin:0 0 8px">この結果は、あなた自身の回答をもとにしています。人は質問に答えるとき、自分を実際よりよく見せる方向に答えやすいことが知られています（社会的望ましさバイアス）。</p>
+        <p style="margin:0">そのため、実際のあなたは、この結果より少しカス寄りである可能性があります。より正確に知りたい場合は、あなたをよく知る人にも同じ質問に答えてもらい、結果を比べてみてください。</p>
+      </div>
+      <div class="card"><h2 class="h">相性</h2><div class="pals">
+        ${pals.map(([c,r,d]) => `<button class="pal" data-code="${c}">${charSVG(c)}<span><span class="role">${r}</span><b>${TYPES[c][0]}</b><small>${d}</small></span></button>`).join('')}
+      </div></div>
+      <div class="endnav">
+        <button class="btn ${friend?'':'sub '}sm" id="retryBtn">${mine ? 'もう一度診断する' : '自分も診断する'}</button>
+        <button class="btn sub sm" id="toZukan">32タイプ図鑑</button>
+        <button class="btn sub sm" id="toHome">トップへ</button>
+      </div>
+      <footer><p>本診断は、ビッグファイブ、HEXACOモデル、ダークトライアドに関する性格心理学の研究知見を参考に作成しています。質問項目は独自に作成したもので、標準化された心理検査や医学的な診断ではありません。</p></footer>
+    </div>`;
+
+  const body = document.getElementById('resultBody');
+  body.querySelectorAll('.pal').forEach(b => b.addEventListener('click', e => renderResult(e.currentTarget.dataset.code, null, false)));
+  body.querySelector('#retryBtn').addEventListener('click', () => document.getElementById('startBtn').click());
+  body.querySelector('#toZukan').addEventListener('click', () => { renderZukan(); show('zukan'); });
+  body.querySelector('#toHome').addEventListener('click', () => { refreshLast(); show('home'); });
+  const toast = t => { const el = document.getElementById('toast'); if (el) el.textContent = t; };
+  const lb = body.querySelector('#linkBtn');
+  if (lb) lb.addEventListener('click', async () => {
+    const link = `${SHARE_URL}?t=${code}`;
+    try { await navigator.clipboard.writeText(link); toast('リンクをコピーしました'); } catch(e){ toast('コピーできませんでした：' + link); }
+  });
+  const cb = body.querySelector('#copyBtn');
+  if (cb) cb.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(shareText); toast('結果をコピーしました'); } catch(e){ toast('コピーできませんでした。長押しで選択してコピーしてください'); }
+  });
+  show('result');
+}
+
+/* ---------- 図鑑 ---------- */
+const LEVELS = [['all','ぜんぶ',0,101],['a','聖人〜まっとう',0,35],['b','普通の人間',35,50],['c','小さなカス',50,65],['d','立派なカス以上',65,101]];
+let zl = 'all', zt = 'all', zg = 'all';
+function renderZukan(){
+  document.getElementById('zlevel').innerHTML = LEVELS.map(([k,l]) => `<button data-f="${k}" aria-pressed="${zl===k}">${l}</button>`).join('');
+  const traits = [['all','ぜんぶ'], ...AX.map(ax => [ax.poles[1].c, ax.poles[1].n])];
+  document.getElementById('ztrait').innerHTML = traits.map(([k,l]) => `<button data-f="${k}" aria-pressed="${zt===k}">${l}</button>`).join('');
+  const band = LEVELS.find(b => b[0]===zl);
+  document.getElementById('zgenre').innerHTML = [['all','ぜんぶ'], ...Object.entries(GENRES).map(([k,g]) => [k,g.n])].map(([k,l]) => `<button data-f="${k}" aria-pressed="${zg===k}">${l}</button>`).join('');
+  const list = CODES.map(c => [c, kasu(c).v]).filter(([c,v]) => (zt==='all' || c.includes(zt)) && (zg==='all' || c.startsWith(zg)) && v >= band[2] && v < band[3]).sort((a,b) => a[1]-b[1]);
+  document.getElementById('zcount').textContent = `${list.length}タイプ（カス度の低い順）`;
+  document.getElementById('grid').innerHTML = list.length ? list.map(([c,v]) =>
+    `<button class="zc" data-code="${c}">${charSVG(c)}<b>${TYPES[c][0]}</b><small>カス度 ${v}</small></button>`).join('')
+    : '<p class="empty">この条件に合うタイプはありません。</p>';
+}
+document.getElementById('zlevel').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; zl = b.dataset.f; renderZukan(); });
+document.getElementById('zgenre').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; zg = b.dataset.f; renderZukan(); });
+document.getElementById('ztrait').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; zt = b.dataset.f; renderZukan(); });
+document.getElementById('grid').addEventListener('click', e => { const b = e.target.closest('.zc'); if (!b) return; renderResult(b.dataset.code, null, false); });
+document.getElementById('zBack').addEventListener('click', () => { refreshLast(); show('home'); });
+
+function refreshLast(){
+  const btn = document.getElementById('lastBtn'); let last = null;
+  try { last = JSON.parse(localStorage.getItem('kasujin-last') || 'null'); } catch(e){}
+  if (last && TYPES[last.code]){ btn.hidden = false; btn.onclick = () => renderResult(last.code, last.pct, true); }
+  else btn.hidden = true;
+}
+refreshLast();
+
+(function(){
+  let t = null;
+  try { t = new URLSearchParams(location.search).get('t'); if (!t && location.hash) t = new URLSearchParams(location.hash.slice(1)).get('t'); } catch(e){}
+  if (t && TYPES[t.toUpperCase()]){ renderResult.friend = true; renderResult(t.toUpperCase(), null, false); renderResult.friend = false; }
+})();
+</script>
+</body>
+</html>
